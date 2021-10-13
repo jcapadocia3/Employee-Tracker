@@ -4,7 +4,7 @@ VALUES ("Sales"),
        ("Finance"),
        ("Legal");
 
-INSERT INTO role (title, salary, department_id)
+INSERT INTO role (title, salary, department)
 VALUES ("Sales Team Lead", 45000, 1),
        ("Salesperson", 35000, 1),
        ("Lead Engineer", 98000, 2),
@@ -14,12 +14,12 @@ VALUES ("Sales Team Lead", 45000, 1),
        ("Legal Team Lead", 90000, 4),
        ("Lawyer", 75000, 4);
 
--- INSERT INTO employee (first_name, last_name, role_id)
--- VALUES ("Cheryl", "DeGuzman", 1),
---        ("Mary", "LittleLamb", 2),
---        ("James", "Capadocia", 3),
---        ("Bat", "Man", 4),
---        ("Chuck", "Norris", 5),
---        ("Hokey", "Pokey", 6),
---        ("Tom", "Jerry", 7),
---        ("Tom", "Sawyer", 8);
+INSERT INTO employee (first_name, last_name, role)
+VALUES ("Cheryl", "DeGuzman", 1),
+       ("Mary", "LittleLamb", 2),
+       ("James", "Capadocia", 3),
+       ("Bat", "Man", 4),
+       ("Chuck", "Norris", 5),
+       ("Hokey", "Pokey", 6),
+       ("Tom", "Jerry", 7),
+       ("Tom", "Sawyer", 8);
