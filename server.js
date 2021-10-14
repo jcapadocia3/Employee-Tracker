@@ -79,13 +79,24 @@ showDepartments = () => {
 
 showRoles = () => {
 
-  console.log('------------------------\n');
+  console.log('------------------\n');
   console.log('Showing all roles:\n');
-  console.log('------------------------\n');
+  console.log('------------------\n');
 
-  db.query('SELECT * FROM role', function (err, results) {
-    console.log(results);
+  // db.query('SELECT * FROM role', function (err, results) {
+  //   console.log(results);
+  // });
+
+  const dbData = `SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON role.department = department.id`;
+  
+  db.query(dbData, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+      console.table(res);
+      userPrompts();
   });
+
 };
 
 showEmployees = () => {
