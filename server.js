@@ -33,7 +33,7 @@ const userPrompts = () => {
           'Update an employee role'
         ]
       }
-    ]);
+    ])
   
 
     .then((userRes) => {
