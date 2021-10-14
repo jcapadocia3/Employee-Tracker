@@ -14,9 +14,9 @@ const db = mysql.createConnection(
 
 const userPrompts = () => {
 
-  console.log(`--------------------------`)
-  console.log(`What would you like to do?`)
-  console.log(`--------------------------`)
+  console.log(`--------------------------\n`)
+  console.log(`What would you like to do?\n`)
+  console.log(`--------------------------\n`)
 
   return inquirer
     .prompt ([
@@ -41,19 +41,21 @@ const userPrompts = () => {
       const { choices } = userRes;
 
       if (choices === 'View all departments') {
-        showDepartments = () => {
-          console.log('Showing all departments...\n');
-          const sql = `SELECT department.id AS id, department.name AS department FROM department`; 
-        
-          connection.promise().query(sql, (err, rows) => {
-            if (err) throw err;
-            console.table(rows);
-            userPrompts();
-          })
-        }
+        showDepartments();
       }
     })
   
 };
 
 userPrompts();
+
+showDepartments = () => {
+
+  console.log('------------------------\n');
+  console.log('Showing all departments:\n');
+  console.log('------------------------\n');
+
+  db.query('SELECT * FROM department', function (err, results) {
+    console.log(results);
+  });
+};
