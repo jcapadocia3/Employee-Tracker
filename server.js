@@ -43,6 +43,12 @@ const userPrompts = () => {
       if (choices === 'View all departments') {
         showDepartments();
       }
+      else if (choices === 'View all roles') {
+        showRoles();
+      }
+      else if (choices === 'View all employees') {
+        showEmployees();
+      }
     })
   
 };
@@ -56,6 +62,28 @@ showDepartments = () => {
   console.log('------------------------\n');
 
   db.query('SELECT * FROM department', function (err, results) {
+    console.log(results);
+  });
+};
+
+showRoles = () => {
+
+  console.log('------------------------\n');
+  console.log('Showing all roles:\n');
+  console.log('------------------------\n');
+
+  db.query('SELECT * FROM role', function (err, results) {
+    console.log(results);
+  });
+};
+
+showEmployees = () => {
+
+  console.log('------------------------\n');
+  console.log('Showing all employees:\n');
+  console.log('------------------------\n');
+
+  db.query('SELECT * FROM employee', function (err, results) {
     console.log(results);
   });
 };
