@@ -61,9 +61,20 @@ showDepartments = () => {
   console.log('Showing all departments:\n');
   console.log('------------------------\n');
 
-  db.query('SELECT * FROM department', function (err, results) {
-    console.log(results);
+  // db.query('SELECT * FROM department', function (err, res) {
+  //   console.log(res);
+  // });
+
+  const dbData = `SELECT department.id AS id, department.name AS department FROM department`;
+
+  db.query(dbData, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    console.table(res);
+    userPrompts();
   });
+
 };
 
 showRoles = () => {
