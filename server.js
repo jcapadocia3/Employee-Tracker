@@ -49,6 +49,9 @@ const userPrompts = () => {
       else if (choices === 'View all employees') {
         showEmployees();
       }
+      else if (choices === 'Add a department') {
+        addDep();
+      }
     })
   
 };
@@ -106,5 +109,36 @@ showEmployees = () => {
       console.table(res);
       userPrompts();
   });
+
+};
+
+addDep = () => {
+
+  console.log('--------------------\n');
+  console.log('Adding a department:\n');
+  console.log('--------------------\n');
+
+  inquirer
+    .prompt([
+      {
+        name: 'newDep',
+        type: 'input',
+        message: 'What is the new department name?',
+      }
+    ])
+    .then((answer) => {
+
+      let dbData = `INSERT INTO department (name) VALUES (?)`;
+
+      db.query(dbData, answer.newDep, (err, res) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log('-----------------\n');
+        console.log('New department added!\n');
+        console.log('-----------------\n');
+         showDepartments();
+      });
+    });
 
 };
