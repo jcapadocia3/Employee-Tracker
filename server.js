@@ -52,6 +52,9 @@ const userPrompts = () => {
       else if (choices === 'Add a department') {
         addDep();
       }
+      else if (choices === 'Add a role') {
+        addRole();
+      }
     })
   
 };
@@ -137,8 +140,56 @@ addDep = () => {
         console.log('-----------------\n');
         console.log('New department added!\n');
         console.log('-----------------\n');
-         showDepartments();
+        showDepartments();
       });
+    });
+
+};
+
+addRole = () => {
+
+  console.log('--------------\n');
+  console.log('Adding a role:\n');
+  console.log('--------------\n');
+
+  const sql = 'SELECT * FROM department'
+
+  db.query(sql, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+      let depArray = [];
+      
+      res.forEach((department) => {depArray.push(department.name);});
+      
+      inquirer
+        .prompt([
+          {
+            name: 'departmentName',
+            type: 'list',
+            message: 'Which department is this new role part of?',
+            choices: depArray
+          }
+        ])
+        .then((answer) => {
+            newRoleInfo(answer);
+        });
+
+      const newRoleInfo = (depData) => {
+        inquirer
+          .prompt([
+            {
+              name: 'newRole',
+              type: 'input',
+              message: 'What is the name of the new role?',
+            },
+            {
+              name: 'salary',
+              type: 'input',
+              message: 'What is the salary of the new role?',
+            }
+          ])
+      };
     });
 
 };
