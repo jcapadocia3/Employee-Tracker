@@ -61,10 +61,6 @@ showDepartments = () => {
   console.log('Showing all departments:\n');
   console.log('------------------------\n');
 
-  // db.query('SELECT * FROM department', function (err, res) {
-  //   console.log(res);
-  // });
-
   const dbData = `SELECT department.id AS id, department.name AS department FROM department`;
 
   db.query(dbData, (err, res) => {
@@ -83,10 +79,6 @@ showRoles = () => {
   console.log('Showing all roles:\n');
   console.log('------------------\n');
 
-  // db.query('SELECT * FROM role', function (err, results) {
-  //   console.log(results);
-  // });
-
   const dbData = `SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON role.department = department.id`;
   
   db.query(dbData, (err, res) => {
@@ -101,11 +93,18 @@ showRoles = () => {
 
 showEmployees = () => {
 
-  console.log('------------------------\n');
+  console.log('----------------------\n');
   console.log('Showing all employees:\n');
-  console.log('------------------------\n');
+  console.log('----------------------\n');
 
-  db.query('SELECT * FROM employee', function (err, results) {
-    console.log(results);
+  let dbData = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS 'department' FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role ORDER BY employee.id ASC`;
+
+  db.query(dbData, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+      console.table(res);
+      userPrompts();
   });
+
 };
