@@ -47,6 +47,8 @@ const userPrompts = () => {
         addDep();
       } else if (choices === "Add a role") {
         addRole();
+      } else if (choices === "Add an employee") {
+        addEmp();
       }
     });
 };
@@ -102,9 +104,9 @@ showEmployees = () => {
 };
 
 addDep = () => {
-  console.log("--------------------\n");
-  console.log("Adding a department:\n");
-  console.log("--------------------\n");
+  console.log("----------------------\n");
+  console.log("Adding a department...\n");
+  console.log("----------------------\n");
 
   inquirer
     .prompt([
@@ -130,9 +132,9 @@ addDep = () => {
 };
 
 addRole = () => {
-  console.log("--------------\n");
-  console.log("Adding a role:\n");
-  console.log("--------------\n");
+  console.log("----------------\n");
+  console.log("Adding a role...\n");
+  console.log("----------------\n");
 
   const sql = "SELECT * FROM department";
 
@@ -197,4 +199,23 @@ addRole = () => {
         });
     };
   });
+};
+
+const addEmp = () => {
+  console.log("-------------------\n");
+  console.log("Adding an employee:\n");
+  console.log("-------------------\n");
+
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'firstName',
+      message: "What is the employee's first name?",
+    },
+    {
+      type: 'input',
+      name: 'lastName',
+      message: "What is the employee's last name?",
+    }
+  ])
 };
