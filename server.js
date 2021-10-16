@@ -136,9 +136,9 @@ addRole = () => {
   console.log("Adding a role...\n");
   console.log("----------------\n");
 
-  const sql = "SELECT * FROM department";
+  const depDb = "SELECT * FROM department";
 
-  db.query(sql, (err, res) => {
+  db.query(depDb, (err, res) => {
     if (err) {
       console.log(err);
     }
@@ -218,4 +218,24 @@ const addEmp = () => {
       message: "What is the employee's last name?",
     }
   ])
+  .then(answer => {
+    const roleDb = `SELECT role.id, role.title FROM role`;
+    
+    db.query(roleDb, (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+
+      const roles = data.map(({ id, title }) => ({ name: title, value: id }));
+
+      inquirer.prompt([
+            {
+              type: 'list',
+              name: 'role',
+              message: "What is the new employee's role?",
+              choices: roles
+            }
+          ])
+        })
+      })
 };
