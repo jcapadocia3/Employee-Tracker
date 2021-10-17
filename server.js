@@ -123,9 +123,9 @@ addDep = () => {
         if (err) {
           console.log(err);
         }
-        console.log("-----------------\n");
+        console.log("---------------------\n");
         console.log("New department added!\n");
-        console.log("-----------------\n");
+        console.log("---------------------\n");
         showDepartments();
       });
     });
@@ -219,6 +219,7 @@ const addEmp = () => {
     }
   ])
   .then(answer => {
+    const empName = [answer.firstName, answer.lastName]
     const roleDb = `SELECT role.id, role.title FROM role`;
     
     db.query(roleDb, (err, data) => {
@@ -236,6 +237,44 @@ const addEmp = () => {
               choices: roles
             }
           ])
-        })
-      })
+     
+      .then(roleChoice => {
+              const role = roleChoice.role;
+              empName.push(role);
+
+              const managerSql =  `SELECT * FROM employee`;
+
+              db.query(managerSql, (err, data) => {
+                if (err) {
+                  console.log(err);
+                }
+                const managers = data.map(({ id, first_name, last_name }) => ({ name: first_name + " "+ last_name, value: id }));
+                inquirer.prompt([
+                  {
+                    type: 'list',
+                    name: 'manager',
+                    message: "Who is the new employee's manager?",
+                    choices: managers
+                  }
+                ])
+                  .then(managerChoice => {
+                    const manager = managerChoice.manager;
+                    empName.push(manager);
+                    const sql =   `INSERT INTO employee (first_name, last_name, role, manager)
+                                  VALUES (?, ?, ?, ?)`;
+                    db.query(sql, empName, (err) => {
+                      if (err) {
+                        console.log(err);
+                      }
+                    console.log("-------------------\n");
+                    console.log("New employee added!\n")
+                    console.log("-------------------\n");
+                    showEmployees();
+              });
+            });
+          });
+        });
+     });
+  });
+
 };
