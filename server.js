@@ -287,6 +287,9 @@ const addEmp = () => {
 };
 
 const updateEmpRole = () => {
+  console.log("----------------------------\n");
+  console.log("Updating an employee's role:\n");
+  console.log("----------------------------\n");
   let sqlInfo = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role" FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role`;
   db.query(sqlInfo, (err, res) => {
     if (err) {
@@ -294,7 +297,7 @@ const updateEmpRole = () => {
     }
 
     let namesArray = [];
-    
+
     res.forEach((employee) => {
       namesArray.push(`${employee.first_name} ${employee.last_name}`);
     });
@@ -308,6 +311,20 @@ const updateEmpRole = () => {
       res.forEach((role) => {
         rolesArray.push(role.title);
       });
+      inquirer.prompt([
+        {
+          name: "chosenEmployee",
+          type: "list",
+          message: "Which employee needs to have their role updated?",
+          choices: namesArray,
+        },
+        {
+          name: "chosenRole",
+          type: "list",
+          message: "What is his/her new role?",
+          choices: rolesArray,
+        },
+      ]);
     });
   });
 };
