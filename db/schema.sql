@@ -1,13 +1,17 @@
+-- Creates database
 DROP DATABASE IF EXISTS employees_db;
 CREATE DATABASE employees_db;
 
+-- Uses database created
 USE employees_db;
 
+-- Create 'department table' and determine data parameters
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30) NOT NULL
 );
 
+-- Create 'role table' and determine data parameters
 CREATE TABLE role (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
@@ -18,6 +22,7 @@ CREATE TABLE role (
   ON DELETE SET NULL
 );
 
+-- Create 'employee table' and determine data parameters
 CREATE TABLE employee (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
