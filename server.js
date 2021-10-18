@@ -1,7 +1,9 @@
+// Variables used to allow access to downloaded packages functionality and pre-written code
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 
+// Connection to database
 const db = mysql.createConnection(
   {
     host: "localhost",
@@ -12,6 +14,7 @@ const db = mysql.createConnection(
   console.log(`Connected to the employees_db database.`)
 );
 
+// Begin user prompts via inquirer
 const userPrompts = () => {
   console.log(`--------------------------\n`);
   console.log(`What would you like to do?\n`);
@@ -23,6 +26,7 @@ const userPrompts = () => {
         type: "list",
         name: "choices",
         choices: [
+          // All actions for how user can interact with database
           "View all departments",
           "View all roles",
           "View all employees",
@@ -34,6 +38,7 @@ const userPrompts = () => {
       },
     ])
 
+    // Based on user choice, call on specific function
     .then((userRes) => {
       const { choices } = userRes;
 
@@ -55,61 +60,74 @@ const userPrompts = () => {
     });
 };
 
+// Initiate user prompt on 'npm start'
+// This function will be called on after each function is completed
 userPrompts();
 
+// Function to show 'department table' data in schema.sql file
 showDepartments = () => {
   console.log("------------------------\n");
   console.log("Showing all departments:\n");
   console.log("------------------------\n");
 
+  // Variable to determine what information from database will be shown in generated table
   const dbData = `SELECT department.id AS id, department.name AS department FROM department`;
 
   db.query(dbData, (err, res) => {
     if (err) {
       console.log(err);
     }
+    // Uses 'console.table' package to generate table in command line
     console.table(res);
     userPrompts();
   });
 };
 
+// Function to show 'roles table' data in schema.sql file
 showRoles = () => {
   console.log("------------------\n");
   console.log("Showing all roles:\n");
   console.log("------------------\n");
 
+  // Variable to determine what information from database will be shown in generated table
   const dbData = `SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON role.department = department.id`;
 
   db.query(dbData, (err, res) => {
     if (err) {
       console.log(err);
     }
+    // Uses 'console.table' package to generate table in command line
     console.table(res);
     userPrompts();
   });
 };
 
+// Function to show 'employee table' data in schema.sql file
 showEmployees = () => {
   console.log("----------------------\n");
   console.log("Showing all employees:\n");
   console.log("----------------------\n");
 
+  // Variable to determine what information from database will be shown in generated table
   let dbData = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS 'department' FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role ORDER BY employee.id ASC`;
 
   db.query(dbData, (err, res) => {
     if (err) {
       console.log(err);
     }
+    // Uses 'console.table' package to generate table in command line
     console.table(res);
     userPrompts();
   });
 };
 
+// Function to add a new department in database within the 'department table'
 addDep = () => {
   console.log("----------------------\n");
   console.log("Adding a department...\n");
   console.log("----------------------\n");
 
+  // Begin prompt to determine new department name to be added
   inquirer
     .prompt([
       {
@@ -119,6 +137,7 @@ addDep = () => {
       },
     ])
     .then((answer) => {
+      // Variable to determine where department should be added in database
       let dbData = `INSERT INTO department (name) VALUES (?)`;
 
       db.query(dbData, answer.newDep, (err, res) => {
@@ -128,34 +147,41 @@ addDep = () => {
         console.log("---------------------\n");
         console.log("New department added!\n");
         console.log("---------------------\n");
+        // Shows new department added to database and initates 'userPrompts()' for user to choose another action 
         showDepartments();
       });
     });
 };
 
+// Function to add a new role in database within the 'role table'
 addRole = () => {
   console.log("----------------\n");
   console.log("Adding a role...\n");
   console.log("----------------\n");
 
+  // Variable to select current data from database in 'department table'
   const depDb = "SELECT * FROM department";
 
   db.query(depDb, (err, res) => {
     if (err) {
       console.log(err);
     }
+    // Create empty array to push data into
     let depArray = [];
 
     res.forEach((department) => {
+      // Push all department names from database in 'department table' into empty array -- depArray
       depArray.push(department.name);
     });
 
+    // Begin prompt to determine which department a new role will be added to
     inquirer
       .prompt([
         {
           name: "departmentName",
           type: "list",
           message: "Which department is this new role part of?",
+          // User choices determined by data pushed into depArray
           choices: depArray,
         },
       ])
@@ -164,6 +190,7 @@ addRole = () => {
       });
 
     const newRoleInfo = (depData) => {
+      // Begin prompts to determine pertinent new role information
       inquirer
         .prompt([
           {
@@ -180,13 +207,16 @@ addRole = () => {
         .then((answer) => {
           let departmentId;
 
+          // Loop to determine department ID associated with department user chose
           res.forEach((department) => {
             if (depData.departmentName === department.name) {
               departmentId = department.id;
             }
           });
 
+          // Variable to determine where role should be added in database
           let dbData = `INSERT INTO role (title, salary, department) VALUES (?, ?, ?)`;
+          // Variable to take user new role information entered by user and department ID associated with department user chose
           let newDataArray = [answer.newRole, answer.salary, departmentId];
 
           db.query(dbData, newDataArray, (err) => {
@@ -196,6 +226,7 @@ addRole = () => {
             console.log("---------------\n");
             console.log("New role added!\n");
             console.log("---------------\n");
+            // Shows new role added to database and initates 'userPrompts()' for user to choose another action
             showRoles();
           });
         });
