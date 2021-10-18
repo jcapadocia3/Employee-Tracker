@@ -70,7 +70,7 @@ showDepartments = () => {
   console.log("Showing all departments...\n");
   console.log("--------------------------\n");
 
-  // Variable to determine what information from database will be shown in generated table
+  // Variable to determine what information from database will be shown in generated table via query
   const dbData = `SELECT department.id AS id, department.name AS department FROM department`;
 
   db.query(dbData, (err, res) => {
@@ -89,7 +89,7 @@ showRoles = () => {
   console.log("Showing all roles...\n");
   console.log("--------------------\n");
 
-  // Variable to determine what information from database will be shown in generated table
+  // Variable to determine what information from database will be shown in generated table via query
   const dbData = `SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON role.department = department.id`;
 
   db.query(dbData, (err, res) => {
@@ -108,7 +108,7 @@ showEmployees = () => {
   console.log("Showing all employees...\n");
   console.log("------------------------\n");
 
-  // Variable to determine what information from database will be shown in generated table
+  // Variable to determine what information from database will be shown in generated table via query
   let dbData = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS 'department' FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role ORDER BY employee.id ASC`;
 
   db.query(dbData, (err, res) => {
@@ -137,7 +137,7 @@ addDep = () => {
       },
     ])
     .then((answer) => {
-      // Variable to determine where department should be added in database
+      // Variable to determine where department should be added in database via query
       let dbData = `INSERT INTO department (name) VALUES (?)`;
 
       db.query(dbData, answer.newDep, (err, res) => {
@@ -159,7 +159,7 @@ addRole = () => {
   console.log("Adding a new role...\n");
   console.log("--------------------\n");
 
-  // Variable to select current data from database in 'department table'
+  // Variable to select current data from database in 'department table' via query
   const depDb = "SELECT * FROM department";
 
   db.query(depDb, (err, res) => {
@@ -214,7 +214,7 @@ addRole = () => {
             }
           });
 
-          // Variable to determine where role should be added in database
+          // Variable to determine where role should be added in database via query
           let dbData = `INSERT INTO role (title, salary, department) VALUES (?, ?, ?)`;
           // Variable to take user new role information entered by user and department ID associated with department user chose
           let newDataArray = [answer.newRole, answer.salary, departmentId];
@@ -234,11 +234,13 @@ addRole = () => {
   });
 };
 
+// Function to add a new employee in database within the 'employee table'
 const addEmp = () => {
   console.log("------------------------\n");
   console.log("Adding a new employee...\n");
   console.log("------------------------\n");
 
+  // Begin prompts to determine new employee name
   inquirer
     .prompt([
       {
