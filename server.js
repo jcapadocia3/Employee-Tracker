@@ -66,9 +66,9 @@ userPrompts();
 
 // Function to show 'department table' data in schema.sql file
 showDepartments = () => {
-  console.log("------------------------\n");
-  console.log("Showing all departments:\n");
-  console.log("------------------------\n");
+  console.log("--------------------------\n");
+  console.log("Showing all departments...\n");
+  console.log("--------------------------\n");
 
   // Variable to determine what information from database will be shown in generated table
   const dbData = `SELECT department.id AS id, department.name AS department FROM department`;
@@ -85,9 +85,9 @@ showDepartments = () => {
 
 // Function to show 'roles table' data in schema.sql file
 showRoles = () => {
-  console.log("------------------\n");
-  console.log("Showing all roles:\n");
-  console.log("------------------\n");
+  console.log("--------------------\n");
+  console.log("Showing all roles...\n");
+  console.log("--------------------\n");
 
   // Variable to determine what information from database will be shown in generated table
   const dbData = `SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON role.department = department.id`;
@@ -104,9 +104,9 @@ showRoles = () => {
 
 // Function to show 'employee table' data in schema.sql file
 showEmployees = () => {
-  console.log("----------------------\n");
-  console.log("Showing all employees:\n");
-  console.log("----------------------\n");
+  console.log("------------------------\n");
+  console.log("Showing all employees...\n");
+  console.log("------------------------\n");
 
   // Variable to determine what information from database will be shown in generated table
   let dbData = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS 'department' FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role ORDER BY employee.id ASC`;
@@ -123,9 +123,9 @@ showEmployees = () => {
 
 // Function to add a new department in database within the 'department table'
 addDep = () => {
-  console.log("----------------------\n");
-  console.log("Adding a department...\n");
-  console.log("----------------------\n");
+  console.log("--------------------------\n");
+  console.log("Adding a new department...\n");
+  console.log("--------------------------\n");
 
   // Begin prompt to determine new department name to be added
   inquirer
@@ -155,9 +155,9 @@ addDep = () => {
 
 // Function to add a new role in database within the 'role table'
 addRole = () => {
-  console.log("----------------\n");
-  console.log("Adding a role...\n");
-  console.log("----------------\n");
+  console.log("--------------------\n");
+  console.log("Adding a new role...\n");
+  console.log("--------------------\n");
 
   // Variable to select current data from database in 'department table'
   const depDb = "SELECT * FROM department";
@@ -235,9 +235,9 @@ addRole = () => {
 };
 
 const addEmp = () => {
-  console.log("-------------------\n");
-  console.log("Adding an employee:\n");
-  console.log("-------------------\n");
+  console.log("------------------------\n");
+  console.log("Adding a new employee...\n");
+  console.log("------------------------\n");
 
   inquirer
     .prompt([
@@ -318,9 +318,9 @@ const addEmp = () => {
 };
 
 const updateEmpRole = () => {
-  console.log("----------------------------\n");
-  console.log("Updating an employee's role:\n");
-  console.log("----------------------------\n");
+  console.log("------------------------------\n");
+  console.log("Updating an employee's role...\n");
+  console.log("------------------------------\n");
   let sqlInfo = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role" FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role`;
   db.query(sqlInfo, (err, res) => {
     if (err) {
@@ -378,9 +378,9 @@ const updateEmpRole = () => {
             if (err) {
               console.log(err);
             }
-            console.log("----------------------\n");
-            console.log("Employee role updated!\n");
-            console.log("----------------------\n");
+            console.log("------------------------\n");
+            console.log("Employee's role updated!\n");
+            console.log("------------------------\n");
             showEmployees();
           });
         });

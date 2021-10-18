@@ -5,13 +5,13 @@ CREATE DATABASE employees_db;
 -- Uses database created
 USE employees_db;
 
--- Create 'department table' and determine data parameters
+-- Create 'department table' and determines data parameters
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30) NOT NULL
 );
 
--- Create 'role table' and determine data parameters
+-- Create 'role table' and determines data parameters
 CREATE TABLE role (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE role (
   ON DELETE SET NULL
 );
 
--- Create 'employee table' and determine data parameters
+-- Create 'employee table' and determines data parameters
 CREATE TABLE employee (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
