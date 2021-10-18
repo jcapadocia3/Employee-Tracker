@@ -295,9 +295,7 @@ const updateEmpRole = () => {
     if (err) {
       console.log(err);
     }
-
     let namesArray = [];
-
     res.forEach((employee) => {
       namesArray.push(`${employee.first_name} ${employee.last_name}`);
     });
@@ -311,20 +309,50 @@ const updateEmpRole = () => {
       res.forEach((role) => {
         rolesArray.push(role.title);
       });
-      inquirer.prompt([
-        {
-          name: "chosenEmployee",
-          type: "list",
-          message: "Which employee needs to have their role updated?",
-          choices: namesArray,
-        },
-        {
-          name: "chosenRole",
-          type: "list",
-          message: "What is his/her new role?",
-          choices: rolesArray,
-        },
-      ]);
+      inquirer
+        .prompt([
+          {
+            name: "chosenEmployee",
+            type: "list",
+            message: "Which employee needs to have their role updated?",
+            choices: namesArray,
+          },
+          {
+            name: "chosenRole",
+            type: "list",
+            message: "What is his/her new role?",
+            choices: rolesArray,
+          },
+        ])
+        .then((answer) => {
+          let newRoleId, employeeId;
+
+          res.forEach((role) => {
+            if (answer.chosenRole === role.title) {
+              newRoleId = role.id;
+            }
+          });
+
+          res.forEach((employee) => {
+            if (
+              answer.chosenEmployee ===
+              `${employee.first_name} ${employee.last_name}`
+            ) {
+              employeeId = employee.id;
+            }
+          });
+
+          let sqls = `UPDATE employee SET employee.role = ? WHERE employee.id = ?`;
+          db.query(sqls, [newRoleId, employeeId], (err) => {
+            if (err) {
+              console.log(err);
+            }
+            console.log("----------------------\n");
+            console.log("Employee role updated!\n");
+            console.log("----------------------\n");
+            showEmployees();
+          });
+        });
     });
   });
 };
