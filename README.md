@@ -8,7 +8,7 @@ https://github.com/jcapadocia3/Employee-Tracker
 
 ## Table of Contents
 1. [Description](#Description)
-2. [Final Product Image](#Final-Product-Image)
+2. [Final Product Image](#Final-Product-Image-and-Video-Walkthrough)
 3. [User Story](#User-Story)
 4. [Installation and Instructions](#Installation-and-Instructions)
 5. [License](#License)
@@ -17,10 +17,13 @@ https://github.com/jcapadocia3/Employee-Tracker
 ## Description
 The purpose of this project is to allow a user to access and manipulate a database that hosts specific employee information for a company. While the code written to allow this may be complex, the user will be guided through simple prompts to execute additions or updates to the database via the command line.
 
-## Final Product Image
+## Final Product Image and Video Walkthrough
 
 - Image of final product created<br>
 <img src="./assets/images/finalproduct.png" alt="Final Product" width="600">
+
+- Video walkthrough of how the project works via the command line<br>
+<a target="_blank" href="https://watch.screencastify.com/v/UDQRWos5oEjXvCLx8Y4H">Click Here</a>
 
 ## User Story
 ```
