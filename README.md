@@ -8,7 +8,7 @@ https://github.com/jcapadocia3/Employee-Tracker
 
 ## Table of Contents
 1. [Description](#Description)
-2. [Final Product Image](#Final-Product-Image-and-Video-Walkthrough)
+2. [Final Product Image and Video Walkthrough](#Final-Product-Image-and-Video-Walkthrough)
 3. [User Story](#User-Story)
 4. [Installation and Instructions](#Installation-and-Instructions)
 5. [License](#License)
