@@ -5,7 +5,8 @@ INSERT INTO department (name)
 VALUES ("Sales"),
        ("Engineering"),
        ("Finance"),
-       ("Legal");
+       ("Legal"),
+       ("Service");
 
 -- Pre-entered data in 'role table'
 INSERT INTO role (title, salary, department)
@@ -16,7 +17,8 @@ VALUES ("Sales Team Lead", 45000, 1),
        ("Account Manager", 70000, 3),
        ("Accountant", 59000, 3),
        ("Legal Team Lead", 90000, 4),
-       ("Lawyer", 75000, 4);
+       ("Lawyer", 75000, 4),
+       ("CSR Team Lead", 42000, 5);
 
 -- Pre-entered data in 'employee table'
 INSERT INTO employee (first_name, last_name, role, manager)
@@ -27,4 +29,5 @@ VALUES ("Cheryl", "DeGuzman", 1, null),
        ("Chuck", "Norris", 5, null),
        ("Hokey", "Pokey", 6, 5),
        ("Tom", "Jerry", 7, null),
-       ("Thomas", "Sawyer", 8, 7);
+       ("Thomas", "Sawyer", 8, 7),
+       ("Tony", "Stark", 9, null);
