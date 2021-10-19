@@ -73,7 +73,7 @@ showDepartments = () => {
   console.log("Showing all departments...\n");
   console.log("--------------------------\n");
 
-  // Variable to determine what information from database will be shown in generated table via query
+  // Query string to determine what information from database will be shown in generated table
   const dbData = `SELECT department.id AS id, department.name AS department FROM department`;
 
   db.query(dbData, (err, res) => {
@@ -92,7 +92,7 @@ showRoles = () => {
   console.log("Showing all roles...\n");
   console.log("--------------------\n");
 
-  // Variable to determine what information from database will be shown in generated table via query
+  // Query string to determine what information from database will be shown in generated table
   const dbData = `SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON role.department = department.id`;
 
   db.query(dbData, (err, res) => {
@@ -111,9 +111,7 @@ showEmployees = () => {
   console.log("Showing all employees...\n");
   console.log("------------------------\n");
 
-  // Variable to determine what information from database will be shown in generated table via query
-  // let dbData = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS 'department' FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role ORDER BY employee.id ASC`;
-
+  // Query string to determine what information from database will be shown in generated table
   let dbData = "SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, concat(manager.first_name, ' ' ,  manager.last_name) AS manager FROM employee employee LEFT JOIN employee manager ON employee.manager = manager.id INNER JOIN role ON employee.role = role.id INNER JOIN department ON role.department = department.id ORDER BY ID ASC";
 
   db.query(dbData, (err, res) => {
@@ -142,7 +140,7 @@ addDep = () => {
       },
     ])
     .then((answer) => {
-      // Variable to determine where department should be added in database via query
+      // Query string to determine where department should be added in database
       let dbData = `INSERT INTO department (name) VALUES (?)`;
 
       db.query(dbData, answer.newDep, (err, res) => {
@@ -164,7 +162,7 @@ addRole = () => {
   console.log("Adding a new role...\n");
   console.log("--------------------\n");
 
-  // Variable to select current data from database in 'department table' via query
+  // Query string to select existing data from database in 'department table'
   const depDb = "SELECT * FROM department";
 
   db.query(depDb, (err, res) => {
@@ -219,9 +217,9 @@ addRole = () => {
             }
           });
 
-          // Variable to determine where role should be added in database via query
+          // Query string to determine where role should be added in database
           let dbData = `INSERT INTO role (title, salary, department) VALUES (?, ?, ?)`;
-          // Variable to take user new role information entered by user and department ID associated with department user chose
+          // Array to take in new role information entered by user and department ID associated with department user chose
           let newDataArray = [answer.newRole, answer.salary, departmentId];
 
           db.query(dbData, newDataArray, (err) => {
@@ -262,7 +260,7 @@ const addEmp = () => {
     .then((answer) => {
       // Puts user input in an array
       const empName = [answer.firstName, answer.lastName];
-      // Variable to select current data from database in 'role table' via query
+      // Query string to select existing data from database in 'role table'
       const roleDb = `SELECT role.id, role.title FROM role`;
 
       db.query(roleDb, (err, data) => {
@@ -288,7 +286,7 @@ const addEmp = () => {
             // Pushes role choice into empName array
             empName.push(role);
 
-            // Variable to select current data from database in 'employee table' via query
+            // Query string to select existing data from database in 'employee table'
             const managerSql = `SELECT * FROM employee`;
 
             db.query(managerSql, (err, data) => {
@@ -313,7 +311,7 @@ const addEmp = () => {
                   const manager = managerChoice.manager;
                   // Pushes manager choice into empName array
                   empName.push(manager);
-                  // Variable to insert new data from user input into database in 'employee table' via query
+                  // Query string to insert new data from user input into database in 'employee table'
                   const sql = `INSERT INTO employee (first_name, last_name, role, manager) VALUES (?, ?, ?, ?)`;
                   db.query(sql, empName, (err) => {
                     if (err) {
@@ -332,27 +330,34 @@ const addEmp = () => {
     });
 };
 
+// Function to update an employee's role in database within the 'employee table'
 const updateEmpRole = () => {
   console.log("------------------------------\n");
   console.log("Updating an employee's role...\n");
   console.log("------------------------------\n");
+  // Query string to select existing data from database
   let sqlInfoEmp = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role" FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role`;
   db.query(sqlInfoEmp, (err, res) => {
     if (err) {
       console.log(err);
     }
+    // Creates empty array
     let namesArray = [];
     res.forEach((employee) => {
+      // Pushes all existing employee names in database into nameArray
       namesArray.push(`${employee.first_name} ${employee.last_name}`);
     });
 
+    // Query string to select existing data from database in 'role table'
     let sqlInfoRole = `SELECT role.id, role.title FROM role`;
     db.query(sqlInfoRole, (err, res) => {
       if (err) {
         console.log(err);
       }
+      // Creates empty array
       let rolesArray = [];
       res.forEach((role) => {
+        // Pushes all existing role titles in database into rolesArray
         rolesArray.push(role.title);
       });
       inquirer
@@ -361,33 +366,35 @@ const updateEmpRole = () => {
             name: "chosenEmployee",
             type: "list",
             message: "Which employee needs to have their role updated?",
+            // Choices presented are based on data pushed into namesArray
             choices: namesArray,
           },
           {
             name: "chosenRole",
             type: "list",
             message: "What is his/her new role?",
+            // Choices presented are based on data pushed into rolesArray
             choices: rolesArray,
           },
         ])
         .then((answer) => {
           let newRoleId, employeeId;
 
+          // Loop to associate role ID based on user choice of role title
           res.forEach((role) => {
             if (answer.chosenRole === role.title) {
               newRoleId = role.id;
             }
           });
 
+          // Loop to associate employee ID based on user choice of employee's full name
           res.forEach((employee) => {
-            if (
-              answer.chosenEmployee ===
-              `${employee.first_name} ${employee.last_name}`
-            ) {
+            if (answer.chosenEmployee === `${employee.first_name} ${employee.last_name}`) {
               employeeId = employee.id;
             }
           });
 
+          // Query string to update employee role in database
           let sqls = `UPDATE employee SET employee.role = ? WHERE employee.id = ?`;
           db.query(sqls, [newRoleId, employeeId], (err) => {
             if (err) {
