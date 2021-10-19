@@ -20,7 +20,7 @@ The purpose of this project is to allow a user to access and manipulate a databa
 ## Final Product Image
 
 - Image of final product created<br>
-<img src="./images/img1.png" alt="Final Product" width="800">
+<img src="./assets/images/finalproduct.png" alt="Final Product" width="600">
 
 ## User Story
 ```
