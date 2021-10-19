@@ -403,6 +403,7 @@ const updateEmpRole = () => {
             console.log("------------------------\n");
             console.log("Employee's role updated!\n");
             console.log("------------------------\n");
+            // Shows existing employee's updated role via the 'showEmployees()' table generated and initates 'userPrompts()' for user to choose another action
             showEmployees();
           });
         });
