@@ -34,6 +34,7 @@ const userPrompts = () => {
           "Add a role",
           "Add an employee",
           "Update an employee role",
+          "Fin!"
         ],
       },
     ])
@@ -56,6 +57,8 @@ const userPrompts = () => {
         addEmp();
       } else if (choices === "Update an employee role") {
         updateEmpRole();
+      } else if (choices === "Fin!") {
+        db.end();
       }
     });
 };
@@ -257,7 +260,9 @@ const addEmp = () => {
       },
     ])
     .then((answer) => {
+      // Puts user input in an array
       const empName = [answer.firstName, answer.lastName];
+      // Variable to select current data from database in 'role table' via query
       const roleDb = `SELECT role.id, role.title FROM role`;
 
       db.query(roleDb, (err, data) => {
@@ -265,6 +270,7 @@ const addEmp = () => {
           console.log(err);
         }
 
+        // Allows user to choose to from existing roles in database via inquirer prompt that follows
         const roles = data.map(({ id, title }) => ({ name: title, value: id }));
 
         inquirer
@@ -279,14 +285,17 @@ const addEmp = () => {
 
           .then((roleChoice) => {
             const role = roleChoice.role;
+            // Pushes role choice into empName array
             empName.push(role);
 
+            // Variable to select current data from database in 'employee table' via query
             const managerSql = `SELECT * FROM employee`;
 
             db.query(managerSql, (err, data) => {
               if (err) {
                 console.log(err);
               }
+              // Allows user to choose to from existing employees in database via inquirer prompt that follows, to select the new employee's manager
               const managers = data.map(({ id, first_name, last_name }) => ({
                 name: first_name + " " + last_name,
                 value: id,
@@ -302,9 +311,10 @@ const addEmp = () => {
                 ])
                 .then((managerChoice) => {
                   const manager = managerChoice.manager;
+                  // Pushes manager choice into empName array
                   empName.push(manager);
-                  const sql = `INSERT INTO employee (first_name, last_name, role, manager)
-                                  VALUES (?, ?, ?, ?)`;
+                  // Variable to insert new data from user input into database in 'employee table' via query
+                  const sql = `INSERT INTO employee (first_name, last_name, role, manager) VALUES (?, ?, ?, ?)`;
                   db.query(sql, empName, (err) => {
                     if (err) {
                       console.log(err);
@@ -312,6 +322,7 @@ const addEmp = () => {
                     console.log("-------------------\n");
                     console.log("New employee added!\n");
                     console.log("-------------------\n");
+                    // Shows new employee added to database and initates 'userPrompts()' for user to choose another action
                     showEmployees();
                   });
                 });
