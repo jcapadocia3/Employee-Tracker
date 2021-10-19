@@ -27,4 +27,4 @@ VALUES ("Cheryl", "DeGuzman", 1, null),
        ("Chuck", "Norris", 5, null),
        ("Hokey", "Pokey", 6, 5),
        ("Tom", "Jerry", 7, null),
-       ("Tom", "Sawyer", 8, 7);
+       ("Thomas", "Sawyer", 8, 7);

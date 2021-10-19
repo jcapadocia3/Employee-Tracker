@@ -109,7 +109,9 @@ showEmployees = () => {
   console.log("------------------------\n");
 
   // Variable to determine what information from database will be shown in generated table via query
-  let dbData = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS 'department' FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role ORDER BY employee.id ASC`;
+  // let dbData = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS 'department' FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role ORDER BY employee.id ASC`;
+
+  let dbData = "SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, concat(manager.first_name, ' ' ,  manager.last_name) AS manager FROM employee employee LEFT JOIN employee manager ON employee.manager = manager.id INNER JOIN role ON employee.role = role.id INNER JOIN department ON role.department = department.id ORDER BY ID ASC";
 
   db.query(dbData, (err, res) => {
     if (err) {
@@ -323,8 +325,8 @@ const updateEmpRole = () => {
   console.log("------------------------------\n");
   console.log("Updating an employee's role...\n");
   console.log("------------------------------\n");
-  let sqlInfo = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role" FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role`;
-  db.query(sqlInfo, (err, res) => {
+  let sqlInfoEmp = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role" FROM employee, role, department WHERE department.id = role.department AND role.id = employee.role`;
+  db.query(sqlInfoEmp, (err, res) => {
     if (err) {
       console.log(err);
     }
@@ -333,8 +335,8 @@ const updateEmpRole = () => {
       namesArray.push(`${employee.first_name} ${employee.last_name}`);
     });
 
-    let sqlInfo = `SELECT role.id, role.title FROM role`;
-    db.query(sqlInfo, (err, res) => {
+    let sqlInfoRole = `SELECT role.id, role.title FROM role`;
+    db.query(sqlInfoRole, (err, res) => {
       if (err) {
         console.log(err);
       }
