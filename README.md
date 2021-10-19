@@ -10,12 +10,12 @@ https://github.com/jcapadocia3/Employee-Tracker
 1. [Description](#Description)
 2. [Final Product Image](#Final-Product-Image)
 3. [User Story](#User-Story)
-4. [Instructions](#Instructions)
+4. [Installation and Instructions](#Installation-and-Instructions)
 5. [License](#License)
 6. [Questions](#Questions)
 
 ## Description
-The purpose of this project is to allow a user to access and edit a database that hosts specific employee information for a company. While the code written to allow this may be complex, the user will be guided through simple prompts to execute additions or updates to the database via the command line.
+The purpose of this project is to allow a user to access and manipulate a database that hosts specific employee information for a company. While the code written to allow this may be complex, the user will be guided through simple prompts to execute additions or updates to the database via the command line.
 
 ## Final Product Image
 
@@ -51,8 +51,12 @@ WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 ```
 
-## Instructions
-- TBD
+## Installation and Instructions
+- Download app files via GitHub
+- Open GitBash/Terminal to access the command line
+- Via the command line, type "npm install" to install required dependencies for use
+- Via the command line, type "npm run start" to begin SQL execution
+- Play around and discover how each prompt presented allows you to view and manipulate the database!
 
 ## License
 - MIT License
