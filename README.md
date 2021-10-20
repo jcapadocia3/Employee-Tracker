@@ -56,10 +56,10 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 ## Installation and Instructions
 - Download app files via GitHub
+- In the "server.js" file, under "const db = mysql.createConnection()", change the "password" field to your personal MySQL password
 - Open GitBash/Terminal to access the command line
 - Via the command line:
     - type "npm install" to install required dependencies for use
-    - in the "server.js" file, under "const db = mysql.createConnection()", change the "password" field to your personal MySQL password
     - type "cd db/"
     - type "mysql -u root -p" and enter your MySQL password when prompted
     - type "source schema.sql"
